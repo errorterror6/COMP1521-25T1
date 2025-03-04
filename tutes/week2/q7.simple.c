@@ -3,14 +3,15 @@
 int main(void) {
 
     int x = 24;
-while_cond:
-    if (x >= 42) goto while_end;
-
+loop_condition:
+    if (x >= 42) goto loop_end
+    // bge $t0, 42, loop_end
     printf("%d\n", x);
-    x += 3;
-    goto while_cond;
+    x += 3
+    goto loop_condition
 
-while_end:
+
+
+loop_end
     return 0;
-
 }

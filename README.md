@@ -4,7 +4,7 @@ Note: Typically slides aren't given a face-lift until a day before!
 
 Week 1: https://www.canva.com/design/DAFuHO2so10/acwb1YlUGU2mJFPz22s1fw/edit?utm_content=DAFuHO2so10&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
-Week 2: https://www.canva.com/design/DAGf9jjDmmY/NTpukqG5FXomTfscGSiVyg/edit?utm_content=DAGf9jjDmmY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
+Week 2 : https://www.canva.com/design/DAGf9jjDmmY/NTpukqG5FXomTfscGSiVyg/edit?utm_content=DAGf9jjDmmY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
 
 Week 3: https://www.canva.com/design/DAFvgBQ7uTw/TyXDs75RVFjxqP9SCvKndw/edit?utm_content=DAFvgBQ7uTw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
