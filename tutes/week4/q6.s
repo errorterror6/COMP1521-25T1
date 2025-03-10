@@ -21,17 +21,22 @@ main:
 	jr	$ra
 
 max:
-    # Frame:    [...]   <-- FILL THESE OUT!
-    # Uses:     [...]
-    # Clobbers: [...]
+    # Frame:    [$ra, $s0]   <-- FILL THESE OUT! #anythibg we pushed and popped
+    # Uses:     [$ra, $s0, $a1, $a0, $v0, $t1, $t0]
+    # Clobbers: [$a1, $a0, $v0, $t1, $t0] uses - frame
     #
     # Locals:           <-- FILL THIS OUT!
-    #   - ...
+    #   - $s0 = first_element
+	#- $t1 = max_so_far
+	#description of what registers were used for
     #
-    # Structure:        <-- FILL THIS OUT!
+    # Structure:        <-- FILL THIS OUT!  #your labels.
     #   max
     #   -> [prologue]
     #       -> body
+#		-> else
+#		-> inner_if
+#		-> inner_if_end
     #   -> [epilogue]
 
     #a0 = array
@@ -52,7 +57,7 @@ max__else:
 
 	#call max
 	#&array[1]
-	la	$t0, array
+	la	$t0, ($a0)
 	addi	$a0, $t0, 4
 
 	#length - 1
