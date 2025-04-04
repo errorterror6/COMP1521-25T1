@@ -1,56 +1,60 @@
 	.text
 FLAG_ROWS = 6
 FLAG_COLS = 12
-
 main:
-	li	$t0, 0   #row = $t0
-main__for_one_start:
-	
-	bge	$t0, FLAG_ROWS, main__for_one_end
 
-	li	$t1, 0	#col = $t1
-main__for_two_start:
-	
-	bge	$t1, FLAG_COLS, main__for_two_end
+	li	$t0, 0	#row = 0
+main__for_loop_cond:
+	bge	$t0, FLAG_ROWS, main__for_loop_end
 
-	#we need flag[row][col]
-	#we need the offset from [row][col]
-	# row * num_cols
+	li	$t1, 0	#col = 0
+main__inner_for_cond:
+	bge	$t1, FLAG_COLS, main__inner_for_end
+
+	#find flag[row][col]
+	# rows * num_cols + cols
+	#   $t0 *   12    + $t1
+
 	mul	$t2, $t0, FLAG_COLS
-	# + cols
 	add	$t2, $t2, $t1
 
-	#multiple by element size
+	#multiply by offset
 	mul	$t2, $t2, 1
+	
+	#add base address
+	add	$t2, $t2, flag
 
-	#lb from flag + offset.
-	lb	$t2, flag($t2)
-	#print it out
+
+	#get the value
+	lb	$t3, ($t2)
+
+
 	li	$v0, 11
-	move	$a0, $t2
+	move	$a0, $t3
 	syscall
 
-	addi	$t1, $t1, 1    #col ++
-	b	main__for_two_start
-main__for_two_end:
-	#printf("\n")
+	addi	$t1, $t1, 1
+	b	main__inner_for_cond
+main__inner_for_end:
 	li	$v0, 11
 	li	$a0, '\n'
 	syscall
 
-	addi	$t0, $t0, 1   #row ++
-	b	main__for_one_start
-main__for_one_end:
+	addi	$t0, $t0, 1
+	b	main__for_loop_cond
+main__for_loop_end:
 	jr	$ra
+
+
 
 
 
 
 	.data
 flag:
-	.byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#',
-	.byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#',
-	.byte	'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
-	.byte	'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.',
-	.byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#',
-	.byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#'
+    .byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#'
+    .byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#'
+    .byte	'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'
+    .byte	'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'
+    .byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#'
+    .byte	'#', '#', '#', '#', '#', '.', '.', '#', '#', '#', '#', '#'

@@ -1,86 +1,64 @@
-	.text
+        .text
 main:
-	push	$ra   #pushed to stack
-	#inputs go in a registers, starting in order
-	#from a0
-	la	$a0, array
-	li	$a1, 4
-	jal	max
-	#ra gets set to here!!!
+        push	$ra
 
-	#output comes from $v0
-	move	$a0, $v0
-	li	$v0, 1
-	syscall
+        la	$a0, array
+        li	$a1, 4
+        jal	max
 
-	li	$v0, 11
-	li	$a0, '\n'
-	syscall
+        move	$a0, $v0  #move output of max into a0 for printing
+        li	$v0, 1
+        syscall
 
-	pop	$ra	#get it back
-	jr	$ra
+        li	$v0, 11
+        li	$a0, '\n'
+        syscall
+
+
+        pop	$ra
+        jr	$ra
+
 
 max:
-    # Frame:    [$ra, $s0]   <-- FILL THESE OUT! #anythibg we pushed and popped
-    # Uses:     [$ra, $s0, $a1, $a0, $v0, $t1, $t0]
-    # Clobbers: [$a1, $a0, $v0, $t1, $t0] uses - frame
-    #
-    # Locals:           <-- FILL THIS OUT!
-    #   - $s0 = first_element
-	#- $t1 = max_so_far
-	#description of what registers were used for
-    #
-    # Structure:        <-- FILL THIS OUT!  #your labels.
-    #   max
-    #   -> [prologue]
-    #       -> body
-#		-> else
-#		-> inner_if
-#		-> inner_if_end
-    #   -> [epilogue]
-
-    #a0 = array
-    #a1 = int (4)
+        #$a0 : array
+        #$a1 : length
 max__prologue:
-	begin
-	push	$ra
-	push	$s0
+        begin
+        push	$ra
+        push	$s0
 max__body:
-	#first_element = $s0
-	lw	$s0, ($a0)
-	bne	$a1, 1, max__else
-	
-	#return
-	move	$v0, $s0
-	b	max__epilogue
+        lw	$s0, 0($a0)     #int first_element = array[0];
+max__if:
+        bne	$a1, 1, max__else
+        move	$v0, $s0
+        j	max__epilogue
 max__else:
 
-	#call max
-	#&array[1]
-	la	$t0, ($a0)
-	addi	$a0, $t0, 4
+        addi	$a0, $a0, 4
+        addi	$a1, $a1, -1
+        jal	max
+        #output is in $v0
 
-	#length - 1
-	addi	$a1, $a1, -1
-	jal	max
-	#output of max is in $v0
-
-	move	$t1, $v0
-	#max_so_Far is in $t1
+        move	$t0, $v0        #t0 = max_so_far
 max__inner_if:
-	ble	$s0, $t1, max__inner_if_end
-	move	$t1, $s0
+        ble	$s0, $t0, max__inner_if_end
+        move	$t0, $s0
 max__inner_if_end:
-	#return
-	move	$v0, $t1
-	b	max__epilogue
+        move	$v0, $t0
+
 
 max__epilogue:
-	pop	$s0
-	pop	$ra
-	end
-	jr	$ra
+        pop	$s0
+        pop	$ra
+        end
+        jr	$ra
 
-	.data
+
+
+
+
+
+
+        .data
 array:
-	.word	1, 2, 5, 4
+        .word   1, 2, 5, 4
