@@ -4,43 +4,36 @@
 #include <string.h>
 
 int utf8_size(char byte) {
-    uint32_t mask_0 = 0b10000000;
-    uint32_t mask_1 = 0b11100000;
-    uint32_t mask_2 = 0b11110000;
-    uint32_t mask_3 = 0b11111000;
+    int mask_1 = 0b10000000;
+    int mask_2 = 0b11100000;
+    int mask_3 = 0b11110000;
+    int mask_4 = 0b11111000;
 
-    if ((mask_0 & byte) != mask_0) {
+    if ((byte & mask_1) != mask_1) {
         return 1;
-    } else if ((mask_1 & byte) != mask_1) {
+    } else if ((byte & mask_2) != mask_2) {
         return 2;
-    } else if ((mask_2 & byte) != mask_2) {
+    } else if ((byte & mask_3) != mask_3) {
         return 3;
-    } else if ((mask_3 & byte) != mask_3) {
+    } else if ((byte & mask_4) != mask_4) {
         return 4;
     }
     return 0;
+
 }
 
 //takes in a string from the command line and counts how many UTF-8 characters there are.
 int main(int argc, char* argv[]) {
     char *str = argv[1];
-    int str_len = strlen(str);
-    //in a loop
-    int bytes = 0;
-    int codepoints = 0;
-    while (bytes < str_len) {
-        //determine how many bytes our utf-8 character is
-        if(str[bytes] == '\0') {
-            break;
-        }
-        int size = utf8_size(str[bytes]);
-        //skip that many bytes
-        bytes += size;
-        codepoints ++;
+    int byte_counter = 0;
+    int chars_encountered = 0;
+    while (byte_counter < strlen(str)) {
+        //determine the size of the codepoint
+        int size = utf8_size(str[byte_counter]);
+        chars_encountered += 1;
+        byte_counter += size;
 
-
+        // skip that many bytes in the string.
     }
-    printf("there were %d objects found.\n", codepoints);
-
-    return 0;
+    printf("%d\n", chars_encountered);
 }
